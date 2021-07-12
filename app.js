@@ -84,10 +84,10 @@ me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
 });
 
 game.Human = me.Sprite.extend({
-  init: function() {
+  init: function(x = MAP_WIDTH / 2 - 20, y = MAP_HEIGHT / 2 + 20, direction = 'down') {
     this._super(me.Sprite, "init", [
-      MAP_WIDTH / 2 - 20,
-      MAP_HEIGHT / 2 + 20,
+      x,
+      y,
       {
         image: me.loader.getImage("human"),
         framewidth: 27.35,
@@ -100,7 +100,7 @@ game.Human = me.Sprite.extend({
     this.addAnimation("shoot", [40,41,42], 10);
     this.setCurrentAnimation("idle");
 
-    this.__DIRECTION__ = 'down';
+    this.__DIRECTION__ = direction;
     this.vel = 50;
     this.minX = (this.width / 2);
     this.maxX = MAP_WIDTH - (this.height / 2);
