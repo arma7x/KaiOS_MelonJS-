@@ -1,5 +1,5 @@
-const MAP_MAP_HEIGHT = 750, HEIGHT = 750;
-const VIEWPORT_HEIGHT = 320, VIEWPORT_WIDTH = 240;
+const MAP_WIDTH = 750, MAP_HEIGHT = 750;
+const VIEWPORT_WIDTH = 240, VIEWPORT_HEIGHT = 320;
 
 var CURRENT_PLAYER = null;
 var LOCK_POV = false;
@@ -33,7 +33,7 @@ var game = {
     { name: "human", type: "image", "src": "/shooter.png", },
   ],
   loaded: function() {
-    me.game.world.resize(MAP_MAP_HEIGHT, HEIGHT);
+    me.game.world.resize(MAP_WIDTH, MAP_HEIGHT);
     me.pool.register("human", game.Human);
     me.pool.register("map", game.Map);
     this.playScreen = new game.PlayScreen();
@@ -57,7 +57,7 @@ var game = {
 
 game.PlayScreen = me.Stage.extend({
   onResetEvent: function() {
-    me.game.world.addChild(me.pool.pull("map", MAP_MAP_HEIGHT/2, HEIGHT/2))
+    me.game.world.addChild(me.pool.pull("map", MAP_WIDTH/2, MAP_HEIGHT/2))
     me.input.bindKey(me.input.KEY.LEFT, "left");
     me.input.bindKey(me.input.KEY.RIGHT, "right");
     me.input.bindKey(me.input.KEY.UP, "up");
@@ -86,8 +86,8 @@ me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
 game.Human = me.Sprite.extend({
   init: function() {
     this._super(me.Sprite, "init", [
-      MAP_MAP_HEIGHT / 2 - 20,
-      HEIGHT / 2 + 20,
+      MAP_WIDTH / 2 - 20,
+      MAP_HEIGHT / 2 + 20,
       {
         image: me.loader.getImage("human"),
         framewidth: 27.35,
@@ -103,9 +103,9 @@ game.Human = me.Sprite.extend({
     this.__DIRECTION__ = 'down';
     this.vel = 50;
     this.minX = (this.width / 2);
-    this.maxX = MAP_MAP_HEIGHT - (this.height / 2);
+    this.maxX = MAP_WIDTH - (this.height / 2);
     this.minY = (this.height / 2);
-    this.maxY = HEIGHT - (this.height / 2);
+    this.maxY = MAP_HEIGHT - (this.height / 2);
 
     //this.body = new me.Body(this);
     //// add a default collision shape
@@ -174,14 +174,14 @@ function follow(plyr) {
   var mX = plyr.pos.x - (VIEWPORT_WIDTH / 2);
   mX = mX <= (VIEWPORT_WIDTH / 2) ? mX - 1 : mX;
   mX = mX <= 0 ? 0 : mX;
-  if ((MAP_MAP_HEIGHT - plyr.pos.x) <= (VIEWPORT_WIDTH / 2)) {
-    mX = MAP_MAP_HEIGHT - VIEWPORT_WIDTH
+  if ((MAP_WIDTH - plyr.pos.x) <= (VIEWPORT_WIDTH / 2)) {
+    mX = MAP_WIDTH - VIEWPORT_WIDTH
   }
   var mY = plyr.pos.y - (VIEWPORT_HEIGHT / 2);
   mY = mY <= (VIEWPORT_HEIGHT / 2) ? mY - 1 : mY;
   mY = mY <= 0 ? 0 : mY;
-  if ((HEIGHT - plyr.pos.y) <= (VIEWPORT_HEIGHT / 2)) {
-    mY = HEIGHT - VIEWPORT_HEIGHT
+  if ((MAP_HEIGHT - plyr.pos.y) <= (VIEWPORT_HEIGHT / 2)) {
+    mY = MAP_HEIGHT - VIEWPORT_HEIGHT
   }
   me.game.viewport.moveTo(mX, mY)
 }
