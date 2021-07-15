@@ -33,6 +33,8 @@ var game = {
     { name: "human", type: "image", "src": "/shooter.png", },
   ],
   loaded: function() {
+    me.timer.maxfps = 30;
+    me.game.world.fps = 30;
     me.game.world.resize(MAP_WIDTH, MAP_HEIGHT);
     me.pool.register("human", game.Human);
     me.pool.register("map", game.Map);
@@ -44,7 +46,7 @@ var game = {
     if (!me.video.init(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, {
         parent: document.getElementById('playground'),
         scale: "auto",
-        renderer: me.video.CANVAS,
+        renderer: me.video.AUTO,
         powerPreference: 'high-performance',
         antiAlias: false
       })) {
@@ -199,17 +201,19 @@ window.addEventListener("load", function() {
     game.onload();
   });
 
-  document.addEventListener('keydown', (evt) => {
-    me.input.triggerKeyEvent(evt.keyCode, true);
-    if ((evt.keyCode === 49 || evt.key === 'Call') && !PLAYING) {
-      newGame()
-    } else if (evt.key === 'Backspace' || evt.key === 'EndCall') {
-      window.close();
-    }
-  });
+  if ("ontouchstart" in window) {
+    document.addEventListener('keydown', (evt) => {
+      me.input.triggerKeyEvent(evt.keyCode, true);
+      if ((evt.keyCode === 49 || evt.key === 'Call') && !PLAYING) {
+        newGame()
+      } else if (evt.key === 'Backspace' || evt.key === 'EndCall') {
+        window.close();
+      }
+    });
 
-  document.addEventListener('keyup', (evt) => {
-    me.input.triggerKeyEvent(evt.keyCode, false);
-  });
+    document.addEventListener('keyup', (evt) => {
+      me.input.triggerKeyEvent(evt.keyCode, false);
+    });
+  }
 
 })
